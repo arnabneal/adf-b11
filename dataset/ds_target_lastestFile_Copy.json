@@ -1,0 +1,38 @@
+{
+	"name": "ds_target_lastestFile_Copy",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"ContainerName": {
+				"type": "string"
+			},
+			"FilePath": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@concat(dataset().FilePath,'/latest')",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().ContainerName",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

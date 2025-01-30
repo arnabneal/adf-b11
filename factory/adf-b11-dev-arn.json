@@ -1,0 +1,21 @@
+{
+	"name": "adf-b11-dev-arn",
+	"properties": {
+		"globalParameters": {
+			"container": {
+				"type": "string",
+				"value": "gen2container"
+			},
+			"filepath": {
+				"type": "string",
+				"value": "target"
+			}
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9dbff76d-3137-46b1-b714-6bc448adb6ad",
+		"tenantId": "b29cdfc7-9c68-48ab-976e-a1e7fab4abbd"
+	}
+}

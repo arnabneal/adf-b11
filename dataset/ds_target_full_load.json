@@ -1,0 +1,31 @@
+{
+	"name": "ds_target_full_load",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_target",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Schemaname": {
+				"type": "string"
+			},
+			"TableName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().Schemaname",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().TableName",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

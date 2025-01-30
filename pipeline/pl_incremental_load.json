@@ -1,0 +1,239 @@
+{
+	"name": "pl_incremental_load",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.TableList",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "WaterMarkTable",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "select WatermarkValue from watermarktable where TableName='@{item().tableName}'",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "ds_source_incremental_load_old",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "NewWaterMarkTable",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "select max(last_updated) as NewWatermarkValue from @{item().tableName}",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "ds_source_incremental_watermark",
+									"type": "DatasetReference"
+								}
+							}
+						},
+						{
+							"name": "Copy data to target table",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "NewWaterMarkTable",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								},
+								{
+									"activity": "WaterMarkTable",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "Select \n    * from @{item().tableName} \nwhere @{item().WaterMark_Column} >'@{formatDateTime(activity('WaterMarkTable').output.firstRow.WatermarkValue, 'yyyy-MM-ddTHH:mm:ss')}' AND @{item().WaterMark_Column} <= '@{formatDateTime(activity('NewWaterMarkTable').output.firstRow.NewWatermarkvalue, 'yyyy-MM-ddTHH:mm:ss')}'\n",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBehavior": "upsert",
+									"upsertSettings": {
+										"useTempDB": true,
+										"keys": [
+											"id"
+										]
+									},
+									"sqlWriterUseTableLock": false,
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_source_incremental_load_copy",
+									"type": "DatasetReference",
+									"parameters": {
+										"SchemaName": {
+											"value": "@item().tableSchemaName",
+											"type": "Expression"
+										},
+										"TableName": {
+											"value": "@item().tableName",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_target_incremental_load_copy",
+									"type": "DatasetReference",
+									"parameters": {
+										"SchemaName": {
+											"value": "@item().tableSchemaName",
+											"type": "Expression"
+										},
+										"TableName": {
+											"value": "@item().tableName",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Stored procedure1",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Copy data to target table",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[usp_write_watermark]",
+								"storedProcedureParameters": {
+									"last_updated": {
+										"value": {
+											"value": "@activity('NewWaterMarkTable').output.firstRow.NewwatermarkValue",
+											"type": "Expression"
+										},
+										"type": "Datetime"
+									},
+									"tableName": {
+										"value": {
+											"value": "@item().tableName",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_sqldb",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"TableList": {
+				"type": "array",
+				"defaultValue": [
+					{
+						"tableName": "iplteams",
+						"tableSchemaName": "dbo",
+						"WaterMark_Column": "last_updated"
+					},
+					{
+						"tableName": "employees",
+						"tableSchemaName": "dbo",
+						"WaterMark_Column": "last_updated"
+					},
+					{
+						"tableName": "salesitems",
+						"tableSchemaName": "dbo",
+						"WaterMark_Column": "last_updated"
+					}
+				]
+			}
+		},
+		"folder": {
+			"name": "Load_Types"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-01-25T17:57:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

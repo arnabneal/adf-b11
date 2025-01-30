@@ -1,0 +1,34 @@
+{
+	"name": "ds_lookup_sql_tables",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sqldb",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Schema_Name": {
+				"type": "string"
+			},
+			"Schema_Table": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "ADF_EXERCISE"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().Schema_Name",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().Schema_Table",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
