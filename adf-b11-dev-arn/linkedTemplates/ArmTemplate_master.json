@@ -1,0 +1,252 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adf-b11-dev-arn"
+		},
+		"ls_adls_gen2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_adls_gen2'"
+		},
+		"ls_sql_target_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_sql_target'"
+		},
+		"ls_sqldb_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_sqldb'"
+		},
+		"ls_adls_gen2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsb11gen2arn.dfs.core.windows.net"
+		},
+		"ls_keyvalult_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://keyvault-b11-arn.vault.azure.net/"
+		},
+		"ls_rest_api_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://reqres.in/api/users"
+		},
+		"ls_rest_api_2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://reqres.in/api/users"
+		},
+		"ls_sql_target_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sqlserverb11devarn.database.windows.net"
+		},
+		"ls_sql_target_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "targetsqldb"
+		},
+		"ls_sql_target_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "arnabneal"
+		},
+		"ls_sqldb_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sqlserverb11devarn.database.windows.net"
+		},
+		"ls_sqldb_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "sqldbdev"
+		},
+		"ls_sqldb_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "arnabneal"
+		},
+		"ls_sqlsrckeyvault_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "sourcesqlsecret"
+		},
+		"Tumbling_window_properties_pipeline_parameters_StartDate": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowStartTime"
+		},
+		"Tumbling_window_properties_pipeline_parameters_EndDate": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndTime"
+		},
+		"daily_triggers_properties_pl_custom_7_days_load_parameters_TableName": {
+			"type": "array",
+			"defaultValue": [
+				{
+					"tableName": "iplteams_last7",
+					"tableSchemaName": "dbo",
+					"WaterMark_Column": "last_updated"
+				},
+				{
+					"tableName": "employees_last7",
+					"tableSchemaName": "dbo",
+					"WaterMark_Column": "last_updated"
+				}
+			]
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adf-b11-dev-arn_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ls_adls_gen2_accountKey": {
+						"value": "[parameters('ls_adls_gen2_accountKey')]"
+					},
+					"ls_sql_target_password": {
+						"value": "[parameters('ls_sql_target_password')]"
+					},
+					"ls_sqldb_password": {
+						"value": "[parameters('ls_sqldb_password')]"
+					},
+					"ls_adls_gen2_properties_typeProperties_url": {
+						"value": "[parameters('ls_adls_gen2_properties_typeProperties_url')]"
+					},
+					"ls_keyvalult_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_keyvalult_properties_typeProperties_baseUrl')]"
+					},
+					"ls_rest_api_properties_typeProperties_url": {
+						"value": "[parameters('ls_rest_api_properties_typeProperties_url')]"
+					},
+					"ls_rest_api_2_properties_typeProperties_url": {
+						"value": "[parameters('ls_rest_api_2_properties_typeProperties_url')]"
+					},
+					"ls_sql_target_properties_typeProperties_server": {
+						"value": "[parameters('ls_sql_target_properties_typeProperties_server')]"
+					},
+					"ls_sql_target_properties_typeProperties_database": {
+						"value": "[parameters('ls_sql_target_properties_typeProperties_database')]"
+					},
+					"ls_sql_target_properties_typeProperties_userName": {
+						"value": "[parameters('ls_sql_target_properties_typeProperties_userName')]"
+					},
+					"ls_sqldb_properties_typeProperties_server": {
+						"value": "[parameters('ls_sqldb_properties_typeProperties_server')]"
+					},
+					"ls_sqldb_properties_typeProperties_database": {
+						"value": "[parameters('ls_sqldb_properties_typeProperties_database')]"
+					},
+					"ls_sqldb_properties_typeProperties_userName": {
+						"value": "[parameters('ls_sqldb_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "adf-b11-dev-arn_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adf-b11-dev-arn_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "adf-b11-dev-arn_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ls_sqlsrckeyvault_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('ls_sqlsrckeyvault_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adf-b11-dev-arn_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "adf-b11-dev-arn_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adf-b11-dev-arn_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "adf-b11-dev-arn_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Tumbling_window_properties_pipeline_parameters_StartDate": {
+						"value": "[parameters('Tumbling_window_properties_pipeline_parameters_StartDate')]"
+					},
+					"Tumbling_window_properties_pipeline_parameters_EndDate": {
+						"value": "[parameters('Tumbling_window_properties_pipeline_parameters_EndDate')]"
+					},
+					"daily_triggers_properties_pl_custom_7_days_load_parameters_TableName": {
+						"value": "[parameters('daily_triggers_properties_pl_custom_7_days_load_parameters_TableName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adf-b11-dev-arn_ArmTemplate_3')]"
+			]
+		}
+	]
+}

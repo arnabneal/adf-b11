@@ -1,0 +1,71 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-b11-dev-arn"
+		},
+		"ls_adls_gen2_accountKey": {
+			"value": ""
+		},
+		"ls_sql_target_password": {
+			"value": ""
+		},
+		"ls_sqldb_password": {
+			"value": ""
+		},
+		"ls_adls_gen2_properties_typeProperties_url": {
+			"value": "https://adlsb11gen2arn.dfs.core.windows.net"
+		},
+		"ls_keyvalult_properties_typeProperties_baseUrl": {
+			"value": "https://keyvault-b11-arn.vault.azure.net/"
+		},
+		"ls_rest_api_properties_typeProperties_url": {
+			"value": "https://reqres.in/api/users"
+		},
+		"ls_rest_api_2_properties_typeProperties_url": {
+			"value": "https://reqres.in/api/users"
+		},
+		"ls_sql_target_properties_typeProperties_server": {
+			"value": "sqlserverb11devarn.database.windows.net"
+		},
+		"ls_sql_target_properties_typeProperties_database": {
+			"value": "targetsqldb"
+		},
+		"ls_sql_target_properties_typeProperties_userName": {
+			"value": "arnabneal"
+		},
+		"ls_sqldb_properties_typeProperties_server": {
+			"value": "sqlserverb11devarn.database.windows.net"
+		},
+		"ls_sqldb_properties_typeProperties_database": {
+			"value": "sqldbdev"
+		},
+		"ls_sqldb_properties_typeProperties_userName": {
+			"value": "arnabneal"
+		},
+		"ls_sqlsrckeyvault_properties_typeProperties_connectionString_secretName": {
+			"value": "sourcesqlsecret"
+		},
+		"Tumbling_window_properties_pipeline_parameters_StartDate": {
+			"value": "@trigger().outputs.windowStartTime"
+		},
+		"Tumbling_window_properties_pipeline_parameters_EndDate": {
+			"value": "@trigger().outputs.windowEndTime"
+		},
+		"daily_triggers_properties_pl_custom_7_days_load_parameters_TableName": {
+			"value": [
+				{
+					"tableName": "iplteams_last7",
+					"tableSchemaName": "dbo",
+					"WaterMark_Column": "last_updated"
+				},
+				{
+					"tableName": "employees_last7",
+					"tableSchemaName": "dbo",
+					"WaterMark_Column": "last_updated"
+				}
+			]
+		}
+	}
+}
