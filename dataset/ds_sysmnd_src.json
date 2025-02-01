@@ -1,0 +1,29 @@
+{
+	"name": "ds_sysmnd_src",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_managedidentity_src",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "pipelinename",
+				"type": "varchar"
+			},
+			{
+				"name": "adfname",
+				"type": "varchar"
+			},
+			{
+				"name": "pipeline_runid",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "adfpipelinedetails"
+		}
+	}
+}
