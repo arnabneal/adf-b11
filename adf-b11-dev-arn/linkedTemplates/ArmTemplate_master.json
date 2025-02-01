@@ -63,6 +63,14 @@
 			"type": "string",
 			"defaultValue": "sourcesqlsecret"
 		},
+		"ls_systemAssigned__properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sqlserverb11devarn.database.windows.net"
+		},
+		"ls_systemAssigned__properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "sqldbdev"
+		},
 		"Tumbling_window_properties_pipeline_parameters_StartDate": {
 			"type": "string",
 			"defaultValue": "@trigger().outputs.windowStartTime"
@@ -151,6 +159,12 @@
 					},
 					"ls_sqldb_properties_typeProperties_userName": {
 						"value": "[parameters('ls_sqldb_properties_typeProperties_userName')]"
+					},
+					"ls_systemAssigned__properties_typeProperties_server": {
+						"value": "[parameters('ls_systemAssigned__properties_typeProperties_server')]"
+					},
+					"ls_systemAssigned__properties_typeProperties_database": {
+						"value": "[parameters('ls_systemAssigned__properties_typeProperties_database')]"
 					}
 				}
 			},
@@ -189,9 +203,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"ls_sqlsrckeyvault_properties_typeProperties_connectionString_secretName": {
-						"value": "[parameters('ls_sqlsrckeyvault_properties_typeProperties_connectionString_secretName')]"
 					}
 				}
 			},
@@ -212,6 +223,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"ls_sqlsrckeyvault_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('ls_sqlsrckeyvault_properties_typeProperties_connectionString_secretName')]"
 					}
 				}
 			},

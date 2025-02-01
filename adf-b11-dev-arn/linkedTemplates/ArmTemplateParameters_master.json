@@ -47,6 +47,12 @@
 		"ls_sqlsrckeyvault_properties_typeProperties_connectionString_secretName": {
 			"value": "sourcesqlsecret"
 		},
+		"ls_systemAssigned__properties_typeProperties_server": {
+			"value": "sqlserverb11devarn.database.windows.net"
+		},
+		"ls_systemAssigned__properties_typeProperties_database": {
+			"value": "sqldbdev"
+		},
 		"Tumbling_window_properties_pipeline_parameters_StartDate": {
 			"value": "@trigger().outputs.windowStartTime"
 		},
