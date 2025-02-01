@@ -10,6 +10,9 @@
 				"type": "string",
 				"value": "target"
 			}
+		},
+		"globalConfigurations": {
+			"PipelineBillingEnabled": "false"
 		}
 	},
 	"location": "eastus",
