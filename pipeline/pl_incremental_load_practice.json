@@ -120,7 +120,8 @@
 								"sink": {
 									"type": "DelimitedTextSink",
 									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
+										"type": "AzureBlobFSWriteSettings",
+										"copyBehavior": "MergeFiles"
 									},
 									"formatSettings": {
 										"type": "DelimitedTextWriteSettings",
@@ -181,7 +182,7 @@
 								"storedProcedureParameters": {
 									"last_updated": {
 										"value": {
-											"value": "@utcNow()",
+											"value": "@activity('New Water Mark Value').output.firstRow.NewWatermarkValue",
 											"type": "Expression"
 										},
 										"type": "Datetime"

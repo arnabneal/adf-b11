@@ -19,8 +19,8 @@
 					"value": "@dataset().filename",
 					"type": "Expression"
 				},
-				"folderPath": "bronze/CopyTableInc",
-				"fileSystem": "gen2adlsarn"
+				"folderPath": "CopyTableInc",
+				"fileSystem": "bronze"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
