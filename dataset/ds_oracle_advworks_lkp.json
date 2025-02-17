@@ -1,0 +1,12 @@
+{
+	"name": "ds_oracle_advworks_lkp",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_oracle_db",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": []
+	}
+}
