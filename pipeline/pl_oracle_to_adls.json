@@ -45,13 +45,19 @@
 						"value": "@activity('oracle_advworks_lookup').output.value",
 						"type": "Expression"
 					},
-					"isSequential": false,
-					"batchCount": 5,
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "Copy Data To ADLS",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "If Condition1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -90,6 +96,7 @@
 									"referenceName": "ds_oracle_cp_tbls",
 									"type": "DatasetReference",
 									"parameters": {
+										"SchemName": "ADVWORKS",
 										"TableName": {
 											"value": "@item().TABLE_NAME",
 											"type": "Expression"
@@ -109,6 +116,120 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "Check File If Exsists",
+							"type": "GetMetadata",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "ds_lkp_file",
+									"type": "DatasetReference"
+								},
+								"fieldList": [
+									"childItems"
+								],
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "ParquetReadSettings"
+								}
+							}
+						},
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "Check File If Exsists",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@contains(join(activity('Check File If Exsists').output.childItems, ', '), item().TABLE_NAME)\n",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Copy data1",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "OracleSource",
+												"partitionOption": "None",
+												"convertDecimalToInteger": false,
+												"queryTimeout": "02:00:00"
+											},
+											"sink": {
+												"type": "ParquetSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "ParquetWriteSettings"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "ds_oracle_cp_tbls",
+												"type": "DatasetReference",
+												"parameters": {
+													"SchemName": "ADVWORKS",
+													"TableName": {
+														"value": "@item().TABLE_NAME",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "ds_cpy_archive",
+												"type": "DatasetReference",
+												"parameters": {
+													"FileName": {
+														"value": "@concat(item().TABLE_NAME, '_',utcnow())",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								]
+							}
 						}
 					]
 				}
