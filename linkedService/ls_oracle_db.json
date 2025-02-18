@@ -6,10 +6,10 @@
 		"type": "Oracle",
 		"typeProperties": {
 			"connectionString": "host=localhost;port=1525;servicename=HRPDB;user id=AdvWorks",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2ZTliMjY4MS03NTA3LTQxNzYtOGE4Zi1hNjc3MTdkNzFjZTYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0NGMyYjYzMy1lYTIxLTQyNGMtODE0My0wMDIwMTM3MmRkNTUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "Self-Hosted-Oracle",
+			"referenceName": "Self-Hosted-IR",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
