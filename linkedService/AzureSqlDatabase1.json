@@ -12,10 +12,6 @@
 				},
 				"secretName": "secret-sql"
 			}
-		},
-		"connectVia": {
-			"referenceName": "new-IR",
-			"type": "IntegrationRuntimeReference"
 		}
 	}
 }
