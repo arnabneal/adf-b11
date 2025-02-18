@@ -6,7 +6,7 @@
 		"type": "Oracle",
 		"typeProperties": {
 			"connectionString": "host=localhost;port=1525;servicename=HRPDB;user id=AdvWorks",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0NGMyYjYzMy1lYTIxLTQyNGMtODE0My0wMDIwMTM3MmRkNTUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4MjNhMjlhYy1iNzc3LTQ5YTgtOGI4OC0wYzNhN2E2OWFhYTYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "Self-Hosted-IR",
