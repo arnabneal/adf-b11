@@ -1,9 +1,0 @@
-{
-	"name": "adf-b11-arn-dev",
-	"location": "eastus",
-	"identity": {
-		"type": "SystemAssigned",
-		"principalId": "c1c0997c-b9cf-4554-9df6-ad52675f0e78",
-		"tenantId": "8fbf2d19-e0eb-4e5c-b22d-a447b89f8216"
-	}
-}
