@@ -1,0 +1,9 @@
+{
+	"name": "adf-b11-dev-arnab",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "473e563f-2d6d-4802-ab94-b2bf7d9999a9",
+		"tenantId": "e24ac094-efd8-4a6b-98d5-a129b32a8c9a"
+	}
+}
