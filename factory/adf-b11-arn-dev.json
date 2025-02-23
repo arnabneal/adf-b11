@@ -1,5 +1,13 @@
 {
 	"name": "adf-b11-arn-dev",
+	"properties": {
+		"globalParameters": {
+			"ADLS_PATH_PREFIX": {
+				"type": "string",
+				"value": "https://adlsgen2container.file.core.windows.net/"
+			}
+		}
+	},
 	"location": "eastus",
 	"identity": {
 		"type": "SystemAssigned",
