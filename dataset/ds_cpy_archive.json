@@ -2,7 +2,7 @@
 	"name": "ds_cpy_archive",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ls_adls_gen2",
+			"referenceName": "ls_gen2_conn",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
