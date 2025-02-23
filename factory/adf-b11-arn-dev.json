@@ -4,7 +4,7 @@
 		"globalParameters": {
 			"ADLS_PATH_PREFIX": {
 				"type": "string",
-				"value": "https://adlsgen2container.file.core.windows.net/"
+				"value": "https://adlsgen2container.file.core.windows.net/bronze/"
 			}
 		}
 	},
