@@ -74,8 +74,8 @@
 									}
 								},
 								"fieldList": [
-									"lastModified",
-									"itemName"
+									"itemName",
+									"lastModified"
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
@@ -109,7 +109,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "@IF OBJECT_ID('dbo.TopNFiles') IS NULL \n    CREATE TABLE dbo.TopNFiles (\n        itemname VARCHAR(50),\n        lastmodified DATETIME\n    );\nInsert into dbo.TopNFiles \nselect '@{activity('Get Metadata2').output.itemName}','@{formatDateTime(activity('Get Metadata2').output.lastModified,'yyyy-mm-dd HH:mm:ss')}';\nselect 1 from Output",
+										"value": "\nIF OBJECT_ID('dbo.TopNFiles') IS NULL \n    CREATE TABLE dbo.TopNFiles (\n        itemname VARCHAR(50),\n        lastmodified DATETIME\n    ); \nINSERT INTO dbo.TopNFiles \nselect '@{activity('Get Metadata2').output.itemName}', \n         '@{formatDateTime(activity('Get Metadata2').output.lastModified, 'yyyy-MM-dd HH:mm:ss')}';\nSELECT 1 FROM Output;\n",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -123,6 +123,42 @@
 							}
 						}
 					]
+				}
+			},
+			{
+				"name": "Lookup2",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select top 5 itemname from dbo.TopNFiles order by lastmodified desc;",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
